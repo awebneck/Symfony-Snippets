@@ -5,6 +5,22 @@
  */
 class Doctrine_Query_Extra extends Doctrine_Query
 {
+  /**
+   * This function returns the fully formed SQL query,
+   * with all the parameters inserted into their correct
+   * location.
+   *
+   * @return SQL query string
+   */
+  public function debug() {
+    $query = $this->getSqlQuery();
+    $params = $this->getFlattenedParams();
+    for ($i=0; $i < count($params); $i++) { 
+      $query = preg_replace('/ \?/', ' '.$params[$i], $query, 1);
+    }
+    return $query;
+  }
+
   protected $_startClause = false;
   
   /**
